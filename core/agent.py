@@ -3342,43 +3342,43 @@ class AgentProfiler(threading.Thread):
             self._filename=profcfg["profiler_filename"]
         threading.Thread.__init__(self, name="AgentProfiler")
 
-    def run(self):
-        import yappi
-        #yappi.set_clock_type("wall")
-        #yappi.start(builtins=True)
-        yappi.start()
-        cntr = utils.Counter()
-        while not self._destroy:
-            if cntr.is_elapsed(self._fileupdateintervall):
-                cntr.reset()
-                if self._filename is not None:
-                    f = open(self._filename,"w")
-                    appmds=[]
-                    #for k in sys.modules:
-                    #    if k=="app_desktop" or k.startswith("app_desktop"):
-                    #        appmds.append(sys.modules[k])    
-                    appmds.append(sys.modules["communication"])
-                    yappi.get_func_stats(
-                        #filter_callback=lambda x: yappi.module_matches(x, appmds)
-                        ).print_all(out=f, columns={
-                            0: ("name", 80),
-                            1: ("ncall", 10),
-                            2: ("tsub", 8),
-                            3: ("ttot", 8),
-                            4: ("tavg", 8)
-                        })                    
-                    yappi.get_thread_stats().print_all(out=f, columns={
-                        0: ("name", 30),
-                        1: ("id", 5),
-                        2: ("tid", 15),
-                        3: ("ttot", 8),
-                        4: ("scnt", 10)
-                    })                    
-                    f.close()
+    # def run(self):
+    #     import yappi
+    #     #yappi.set_clock_type("wall")
+    #     #yappi.start(builtins=True)
+    #     yappi.start()
+    #     cntr = utils.Counter()
+    #     while not self._destroy:
+    #         if cntr.is_elapsed(self._fileupdateintervall):
+    #             cntr.reset()
+    #             if self._filename is not None:
+    #                 f = open(self._filename,"w")
+    #                 appmds=[]
+    #                 #for k in sys.modules:
+    #                 #    if k=="app_desktop" or k.startswith("app_desktop"):
+    #                 #        appmds.append(sys.modules[k])    
+    #                 appmds.append(sys.modules["communication"])
+    #                 yappi.get_func_stats(
+    #                     #filter_callback=lambda x: yappi.module_matches(x, appmds)
+    #                     ).print_all(out=f, columns={
+    #                         0: ("name", 80),
+    #                         1: ("ncall", 10),
+    #                         2: ("tsub", 8),
+    #                         3: ("ttot", 8),
+    #                         4: ("tavg", 8)
+    #                     })                    
+    #                 yappi.get_thread_stats().print_all(out=f, columns={
+    #                     0: ("name", 30),
+    #                     1: ("id", 5),
+    #                     2: ("tid", 15),
+    #                     3: ("ttot", 8),
+    #                     4: ("scnt", 10)
+    #                 })                    
+    #                 f.close()
                 
-            time.sleep(1)
+    #         time.sleep(1)
         
-        yappi.stop()
+    #     yappi.stop()
             
 
     def destroy(self):
